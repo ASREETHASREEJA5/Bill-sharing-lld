@@ -1,131 +1,60 @@
-## Problem Statement
+Introduction : 
+Our project aims to develop an easy-to-use system for managing shared expenses within groups. It simplifies tracking of expenses, calculating individual shares, and settling balances. The goal is to ensure fairness and transparency, removing the complexities of managing finances in group settings. The system automatically calculates debt settlements, ensuring accurate and efficient handling of group expenses. This approach promotes a smooth financial experience for all users, eliminating the need for manual calculations. The overall goal is to make group financial management more efficient and user-friendly.
+•	Expense Tracking: Simplify the process of tracking shared expenses among group members.
+•	Fair Calculation: Ensure accurate and fair distribution of individual contributions based on the expense type.
+•	Debt Settlement: Facilitate efficient and transparent debt settlements between group members.
 
-# Create an expense sharing application.
+System Architecture : 
+1.	User Class: This class holds details for each person using the system, such as their name and the total balance. It tracks how much money a user owes to others, helping the system monitor individual debts and payments.
+2.	Expense Class: This class keeps track of each expense. It stores who paid, the total amount, and how it is split between multiple users. It also records who owes money to whom and the exact amounts.
+3.	SplitWiseService Class: This class is the main part of the application. It manages creating users, adding expenses, and dividing expenses among users. It ensures the amount each person owes or is owed is updated correctly.
+4.	Helper Class: This class offers useful functions, such as generating test data or initializing users. It simplifies tasks like setting up users or creating random data for testing the system.
+5.	Balance Calculation & Display: This step calculates the balance for each user—whether they owe money or are owed. It checks the debts and payments and then shows each user’s balance or the group’s overall balance.
 
-An expense sharing application is where you can add your expenses and split it among different people. The app keeps balances between people as in who owes how much to whom.
-Example
+Key Features :
+•	User-Centric: Designed to track and manage individual expenses, allowing easy tracking of debts and payments.
+•	Expense Management: Records and divides expenses among users, ensuring accurate distribution.
+•	Interactive: Users can engage with the system by adding, updating, and viewing their expenses.
+•	Data Integrity: Maintains precise calculations for balances and ensures accuracy in debt distribution.
+•	Scalable: Supports multiple users and expenses, easily adapting to larger groups or more complex use cases.
 
-You live with 3 other friends.
-You: User1 (id: u1)
-Flatmates: User2 (u2), User3 (u3), User4 (u4)
+Implementation Steps : 
+1.	Define User Class:
+•	Create a User  class with attributes: userId, name, email, mobile, and balances.
+•	Include methods to add balances and get balances.
+2.	Define Expense Class:
+•	Create an Expense class with attributes: payer, amount, participants, expenseType, and shares.
+3.	Initialize Application:
+•	Create a list to store users.
+•	Create a dictionary to track balances between users.
+4.	Add User:
+•	Input user details (userId, name, email, mobile).
+•	Create a new User  object and add it to the user list.
+5.	Record Expense:
+•	Input details for the expense (payerId, amount, participantsList, expenseType, and optional shares).
+•	Validate the expense type:
+•	EQUAL: Split the amount equally among participants.
+•	EXACT: Ensure the total of shares matches the amount.
+•	PERCENT: Ensure the total percentage equals 100.
+•	Update balances for each participant based on their share.
+6.	Show Balances:
+•	Input an optional userId to show balances for a specific user.
+•	If userId is provided, display how much each participant owes that user.
+•	If no userId is provided, display balances for all users.
+7.	Main Loop:
+•	Continuously accept user commands until an exit command is received.
+•	Parse commands to add users, record expenses, or show balances.
+Example of Commands
+•	Add User: ADD_USER u1 "John Doe" "john@example.com" "1234567890"
+•	Record Expense: EXPENSE u1 1000 3 u2 u3 u4 EQUAL
+•	Show Balances: SHOW u1 or SHOW
 
-This month's electricity bill was Rs. 1000.
-Now you can just go to the app and add that you paid 1000,
-select all the 4 people and then select split equally.
-Input: u1 1000 4 u1 u2 u3 u4 EQUAL
+Applications :  
+1.	Group Travel: Split accommodation, transportation, and meal costs fairly among friends or family.
+2.	Roommates: Track and manage shared expenses for utilities, groceries, and rent.
+3.	Dining Out: Quickly calculate each person’s share when dining with others.
+4.	Event Planning: Share costs of organizing events like parties, picnics, or gatherings.
+5.	Small Businesses: For team outings, managing office expenses, or project-based costs.
 
-For this transaction, everyone owes 250 to User1.
-The app should update the balances in each of the profiles accordingly.
-
-User2 owes User1: 250 (0+250)
-User3 owes User1: 250 (0+250)
-User4 owes User1: 250 (0+250)
-
----
-
-Now, It is the BBD sale on Flipkart and there is an offer on your card.
-You buy a few stuffs for User2 and User3 as they asked you to.
-The total amount for each person is different.
-Input: u1 1250 2 u2 u3 EXACT 370 880
-
-For this transaction, User2 owes 370 to User1 and User3 owes 880 to User1.
-
-The app should update the balances in each of the profiles accordingly.
-User2 owes User1: 620 (250+370)
-User3 owes User1: 1130 (250+880)
-User4 owes User1: 250 (250+0)
-
----
-
-Now, you go out with your flatmates and take your brother/sister along with you.
-User4 pays and everyone splits equally. You owe for 2 people.
-Input: u4 1200 4 u1 u2 u3 u4 PERCENT 40 20 20 20
-
-For this transaction, User1 owes 480 to User4, User2 owes 240 to User4 and User3 owes 240 to User4.
-
-The app should update the balances in each of the profiles accordingly.
-User1 owes User4: 230 (250-480)
-User2 owes User1: 620 (620+0)
-User2 owes User4: 240 (0+240)
-User3 owes User1: 1130 (1130+0)
-User3 owes User4: 240 (0+240)
-    
-
-## Requirements
-
-    User: Each user should have a userId, name, email, mobile number.
-    Expense: Could either be EQUAL, EXACT or PERCENT
-    Users can add any amount, select any type of expense and split with any of the available users.
-    The percent and amount provided could have decimals upto two decimal places.
-    In case of percent, you need to verify if the total sum of percentage shares is 100 or not.
-    In case of exact, you need to verify if the total sum of shares is equal to the total amount or not.
-    The application should have a capability to show expenses for a single user as well as balances for everyone.
-    When asked to show balances, the application should show balances of a user with all the users where there is a non-zero balance.
-    The amount should be rounded off to two decimal places. Say if User1 paid 100 and amount is split equally among 3 people. Assign 33.34 to first person and 33.33 to others.
-
-## Input
-
-    You can create a few users in your main method. No need to take it as input.
-    There will be 3 types of input:
-        Expense in the format: EXPENSE <user-id-of-person-who-paid> <no-of-users> <space-separated-list-of-users> <EQUAL/EXACT/PERCENT> <space-separated-values-in-case-of-non-equal>
-        Show balances for all: SHOW
-        Show balances for a single user: SHOW <user-id>
-
-## Output
-
-    When asked to show balance for a single user. Show all the balances that user is part of:
-    Format: <user-id-of-x> owes <user-id-of-y>: <amount>
-    If there are no balances for the input, print No balances
-    In cases where the user for which balance was asked for, owes money, they’ll be x. They’ll be y otherwise.
-
-## Sample Input
-```
-SHOW
-SHOW u1
-EXPENSE u1 1000 4 u1 u2 u3 u4 EQUAL
-SHOW u4
-SHOW u1
-EXPENSE u1 1250 2 u2 u3 EXACT 370 880
-SHOW
-EXPENSE u4 1200 4 u1 u2 u3 u4 PERCENT 40 20 20 20
-SHOW u1
-SHOW
-```
-## Sample Output
-```
-No balances
-No balances
-User4 owes User1: 250
-User2 owes User1: 250
-User3 owes User1: 250
-User4 owes User1: 250
-User2 owes User1: 620
-User3 owes User1: 1130
-User4 owes User1: 250
-User1 owes User4: 230
-User2 owes User1: 620
-User3 owes User1: 1130
-User1 owes User4: 230
-User2 owes User1: 620
-User2 owes User4: 240
-User3 owes User1: 1130
-User3 owes User4: 240
-```
-## Expectations
-
-    Make sure that you have a working and demonstrable code
-    Make sure that the code is functionally correct
-    Code should be modular and readable
-    Separation of concern should be addressed
-    Please do not write everything in a single file
-    Code should easily accommodate new requirements and minimal changes
-    There should be a main method from where the code could be easily testable
-    [Optional] Write unit tests, if possible
-    No need to create a GUI
-
-## Optional Requirements
-
-    A way to add an expense name while adding the expense. Can also add notes, images, etc.
-    Option to split by share. Ex: ‘User4 pays and everyone splits equally. You pay for 2 people.’ could be added as: u4 1200 4 u1 u2 u3 u4 SHARE 2 1 1 1
-    A way to show the passbook for a user. The entries should show all the transactions a user was part of. You can print in any format you like.
-    There can be an option to simplify expenses. When simplify expenses is turned on (is true), the balances should get simplified. Ex: ‘User1 owes 250 to User2 and User2 owes 200 to User3’ should simplify to ‘User1 owes 50 to User2 and 200 to User3’.
+Conclusion:
+This project successfully demonstrates an efficient system for managing shared expenses among users. It ensures accurate tracking of balances, allowing users to see detailed records of debts and payments. By utilizing clear input commands and producing comprehensive output, the system simplifies expense management in a group setting. The implementation highlights fairness, accuracy, and flexibility in handling different splitting methods, making it a robust solution for shared financial scenarios.
