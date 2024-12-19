@@ -14,7 +14,7 @@ public class DriverCode {
         SplitWiseService splitWiseService = new SplitWiseService();
         while (inpsSize <= 10) {
             String type = sc.next();
-            // System.out.println(owerdUsersList);
+
             if (type.equals("EXPENSE")) {
                 String paidUser = sc.next();
                 Double amount = sc.nextDouble();
@@ -27,7 +27,7 @@ public class DriverCode {
                     i++;
                 }
                 String ExpenseType = sc.next();
-                // System.out.println(owerdUsersList);
+
                 i = 0;
                 if (ExpenseType.equals("EQUAL")) {
                     Double equalAmount = Round.round(amount / owerdUsersList.size());

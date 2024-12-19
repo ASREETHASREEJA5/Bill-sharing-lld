@@ -9,16 +9,10 @@ import Utitlity.Round;
 public class SplitWiseService {
     private SplitWise splitwise;
 
-    /**
-     * @return the splitwise
-     */
     public SplitWise getSplitwise() {
         return splitwise;
     }
 
-    /**
-     * @param splitwise the splitwise to set
-     */
     public void setSplitwise(SplitWise splitwise) {
         this.splitwise = splitwise;
     }
@@ -59,7 +53,7 @@ public class SplitWiseService {
                 updateAmountLeftOverOfOwnedUser(paidUser, ownedUser, owedUsers.get(ownedUser));
             }
         }
-        // System.out.print(paidUser + " " + owedUsers);
+
     }
 
     public void updateAmountLeftOverOfOwnedUser(String paiduser, String owedUser, Double amount) {
@@ -76,7 +70,7 @@ public class SplitWiseService {
         if (user == null) {
             for (String u : splitWiseUsers.keySet()) {
                 User currUser = splitWiseUsers.get(u);
-                // System.out.print(u + " " + currUser.getOwedUsers().keySet());
+
                 for (String owedUser : currUser.getOwedUsers().keySet()) {
                     System.out.println(
                             owedUser + " owes " + u + " " + currUser.getOwedUsers().get(owedUser).getTotalbalance());
@@ -94,4 +88,3 @@ public class SplitWiseService {
             System.out.println("no balances");
     }
 }
-/// Done upto paid user
